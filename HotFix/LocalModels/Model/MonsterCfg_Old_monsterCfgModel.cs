@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using LocalModels.Bean;
+using LocalModels.ModelImpl;
+
+namespace LocalModels.Model
+{
+	public class MonsterCfg_Old_monsterCfgModel : BaseLocalModel
+	{
+		public MonsterCfg_Old_monsterCfg GetElementById(int id)
+		{
+			return this.modelImpl.GetElementById(id);
+		}
+
+		public IList<MonsterCfg_Old_monsterCfg> GetAllElements()
+		{
+			return this.modelImpl.GetAllElement();
+		}
+
+		public override void Initialise(string name, byte[] assetBytes)
+		{
+			base.Initialise(name, assetBytes);
+			if (assetBytes == null)
+			{
+				return;
+			}
+			this.modelImpl.Initialise(name, assetBytes);
+		}
+
+		public override void DeInitialise()
+		{
+			this.modelImpl.DeInitialise();
+			base.DeInitialise();
+		}
+
+		public static readonly string fileName = "MonsterCfg_Old_monsterCfg";
+
+		private MonsterCfg_Old_monsterCfgModelImpl modelImpl = new MonsterCfg_Old_monsterCfgModelImpl();
+	}
+}

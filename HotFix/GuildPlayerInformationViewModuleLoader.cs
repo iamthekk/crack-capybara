@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Framework;
+using Framework.ViewModule;
+using UnityEngine.U2D;
+
+namespace HotFix
+{
+	public class GuildPlayerInformationViewModuleLoader : BaseViewModuleLoader
+	{
+		public override async Task OnLoad(object data)
+		{
+			List<Task> list = new List<Task>();
+			this.m_loadSpriteAtlas = new LoadPool<SpriteAtlas>();
+			List<string> list2 = new List<string>();
+			list2.Add(GameApp.Table.GetAtlasPath(117));
+			list2.Add(GameApp.Table.GetAtlasPath(123));
+			list2.Add(GameApp.Table.GetAtlasPath(124));
+			for (int i = 0; i < list2.Count; i++)
+			{
+				list.Add(this.m_loadSpriteAtlas.Load(list2[i]));
+			}
+			await Task.WhenAll(list);
+		}
+
+		public override void OnUnLoad()
+		{
+			if (this.m_loadSpriteAtlas != null)
+			{
+				this.m_loadSpriteAtlas.UnLoadAll();
+				this.m_loadSpriteAtlas = null;
+			}
+		}
+
+		public LoadPool<SpriteAtlas> m_loadSpriteAtlas;
+	}
+}

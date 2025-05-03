@@ -1,0 +1,146 @@
+﻿using System;
+using System.Diagnostics;
+using Google.Protobuf;
+using Proto.Common;
+
+namespace Shop.Arena
+{
+	public sealed class ShopBuyItemRequest : IMessage
+	{
+		[DebuggerNonUserCode]
+		public static MessageParser<ShopBuyItemRequest> Parser
+		{
+			get
+			{
+				return ShopBuyItemRequest._parser;
+			}
+		}
+
+		[DebuggerNonUserCode]
+		public CommonParams CommonParams
+		{
+			get
+			{
+				return this.commonParams_;
+			}
+			set
+			{
+				this.commonParams_ = value;
+			}
+		}
+
+		[DebuggerNonUserCode]
+		public uint ConfigId
+		{
+			get
+			{
+				return this.configId_;
+			}
+			set
+			{
+				this.configId_ = value;
+			}
+		}
+
+		[DebuggerNonUserCode]
+		public uint BuyType
+		{
+			get
+			{
+				return this.buyType_;
+			}
+			set
+			{
+				this.buyType_ = value;
+			}
+		}
+
+		[DebuggerNonUserCode]
+		public void WriteTo(CodedOutputStream output)
+		{
+			if (this.commonParams_ != null)
+			{
+				output.WriteRawTag(10);
+				output.WriteMessage(this.CommonParams);
+			}
+			if (this.ConfigId != 0U)
+			{
+				output.WriteRawTag(16);
+				output.WriteUInt32(this.ConfigId);
+			}
+			if (this.BuyType != 0U)
+			{
+				output.WriteRawTag(24);
+				output.WriteUInt32(this.BuyType);
+			}
+		}
+
+		[DebuggerNonUserCode]
+		public int CalculateSize()
+		{
+			int num = 0;
+			if (this.commonParams_ != null)
+			{
+				num += 1 + CodedOutputStream.ComputeMessageSize(this.CommonParams);
+			}
+			if (this.ConfigId != 0U)
+			{
+				num += 1 + CodedOutputStream.ComputeUInt32Size(this.ConfigId);
+			}
+			if (this.BuyType != 0U)
+			{
+				num += 1 + CodedOutputStream.ComputeUInt32Size(this.BuyType);
+			}
+			return num;
+		}
+
+		[DebuggerNonUserCode]
+		public void MergeFrom(CodedInputStream input)
+		{
+			uint num;
+			while ((num = input.ReadTag()) != 0U)
+			{
+				if (num != 10U)
+				{
+					if (num != 16U)
+					{
+						if (num != 24U)
+						{
+							input.SkipLastField();
+						}
+						else
+						{
+							this.BuyType = input.ReadUInt32();
+						}
+					}
+					else
+					{
+						this.ConfigId = input.ReadUInt32();
+					}
+				}
+				else
+				{
+					if (this.commonParams_ == null)
+					{
+						this.commonParams_ = new CommonParams();
+					}
+					input.ReadMessage(this.commonParams_);
+				}
+			}
+		}
+
+		private static readonly MessageParser<ShopBuyItemRequest> _parser = new MessageParser<ShopBuyItemRequest>(() => new ShopBuyItemRequest());
+
+		public const int CommonParamsFieldNumber = 1;
+
+		private CommonParams commonParams_;
+
+		public const int ConfigIdFieldNumber = 2;
+
+		private uint configId_;
+
+		public const int BuyTypeFieldNumber = 3;
+
+		private uint buyType_;
+	}
+}
